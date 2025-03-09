@@ -1,0 +1,68 @@
+<section class="bg-gray-300 min-h-screen flex justify-center items-center p-4">
+  <div class="shadow-2xl bg-white w-full md:w-[80%] lg:w-[60%] p-6 rounded-lg">
+    <h1 class="font-bold text-center text-2xl md:text-3xl mb-4 text-gray-800">Task Management</h1>
+
+    <!-- inputs -->
+    <form class="flex flex-col md:flex-row items-center justify-center mb-6 space-y-3 md:space-y-0 md:space-x-2"
+      (submit)="$event.preventDefault(); addTask()">
+      <input #taskName type="text" required
+        class="bg-gray-200 border-0 outline-none w-full md:w-[60%] rounded-lg px-3 py-2 text-sm md:text-base"
+        placeholder="Enter a task...">
+      <button class="bg-green-500 text-white px-4 py-2 rounded-lg hover:bg-green-600 transition text-sm md:text-base">
+        Add Task
+      </button>
+    </form>
+
+    <!-- table-->
+    <div class="overflow-x-auto">
+      <table class="w-full mx-auto overflow-hidden shadow-lg rounded-lg min-w-[600px]">
+        <thead class="bg-gray-900 text-white">
+          <tr>
+            <th class="p-2 md:p-3 text-left">Task</th>
+            <th class="text-center">Yes or No</th>
+            <th class="text-center">Delete</th>
+            <th class="text-center">Update</th>
+          </tr>
+        </thead>
+        <tbody class="bg-gray-100 divide-y divide-gray-300">
+          @for (task of tasks; track $index) {
+          <tr>
+            <td class="p-2 md:p-3 text-sm md:text-base" [class.line-through]="completedTasks[$index]"
+              [class.text-gray-500]="completedTasks[$index]">
+              {{ task }}
+            </td>
+            <td class="text-center">
+              <button class="px-3 md:px-4 py-1 bg-blue-500 text-white rounded-lg hover:bg-blue-600 text-sm md:text-base"
+                (click)="toggleComplete($index)">
+                {{ completedTasks[$index] ? 'No' : 'Yes' }}
+              </button>
+            </td>
+            <td class="text-center">
+              <button class="px-3 md:px-4 py-1 bg-red-500 text-white rounded-lg hover:bg-red-600 text-sm md:text-base"
+                (click)="deleteTask($index)">
+                <i class="fa-solid fa-trash"></i> Delete
+              </button>
+            </td>
+            <td class="text-center">
+              <button
+                class="px-3 md:px-4 py-1 bg-yellow-500 text-white rounded-lg hover:bg-yellow-600 text-sm md:text-base"
+                (click)="editTask($index)">
+                <i class="fas fa-edit"></i> Update
+              </button>
+            </td>
+          </tr>
+          } @empty {
+          <tr>
+            <td colspan="4" class="text-center p-6">
+              <div class="flex flex-col items-center">
+                <img src="/5058432.png" alt="No Tasks" class="w-32  md:w-48 mb-4">
+                <p class="text-gray-500 text-lg md:text-xl">No tasks added yet!</p>
+              </div>
+            </td>
+          </tr>
+          }
+        </tbody>
+      </table>
+    </div>
+  </div>
+</section>
